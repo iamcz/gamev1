@@ -22,12 +22,13 @@ io.on('connection', function (client) {
     console.log('user disconnected')
   })
 
-  client.on('chat message', function(msg){
+  client.on('chat message', function (msg) {
+    io.emit('chat message', msg);
     console.log('message: ' + msg)
   })
 })
 
 // Serve the files on port 3000.
 http.listen(3000, function () {
-  console.log('Example app listening on port 3000!\n')
+  console.log('app listening on port 3000\n')
 })
