@@ -1,6 +1,15 @@
 import _ from 'lodash'
 import 'scss/custom.scss'
 import printMe from './print.js'
+import io from 'socket.io-client';
+
+const socket = io.connect(window.location.host, { reconnect: true });
+
+// window.location.host was needed to make it work on Heroku,
+// where I don't know the host port
+socket.on('connect', () => {
+  console.log('socket connected');
+});
 
 function component() {
   var element = document.createElement('div')
