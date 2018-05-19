@@ -1,5 +1,5 @@
 const app = require('express')()
-var http = require('http').Server(app)
+const http = require('http').Server(app)
 
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
@@ -7,7 +7,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware')
 const config = require('./webpack.config.js')
 const compiler = webpack(config)
 
-var io = require('socket.io')(http)
+const io = require('socket.io')(http)
 
 // Tell express to use the webpack-dev-middleware and use the webpack.config.js
 // configuration file as a base.
@@ -24,7 +24,6 @@ io.on('connection', function (client) {
 
   client.on('chat message', function (msg) {
     io.emit('chat message', msg);
-    console.log('message: ' + msg)
   })
 })
 
