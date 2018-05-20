@@ -12,7 +12,7 @@ var geometry
 var material
 
 
-const socket = io.connect(window.location.host, { reconnect: true })
+const socket = io.connect("localhost:3001", { reconnect: true })
 
 function component() {
   var btn = document.createElement('button')
