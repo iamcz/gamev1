@@ -1,12 +1,18 @@
 import _ from 'lodash'
 import 'scss/custom.scss'
 import printMe from './print.js'
-import io from 'socket.io-client';
+import io from 'socket.io-client'
+import * as Three from 'three'
+
+var mesh
+var camera
+var scene
+var renderer
+var geometry
+var material
+
 
 const socket = io.connect(window.location.host, { reconnect: true })
-
-// window.location.host was needed to make it work on Heroku,
-// where I don't know the host port
 
 function component() {
   var btn = document.createElement('button')
@@ -22,16 +28,47 @@ function component() {
   return element
 }
 
-
-function init() {
+function run() {
   socket.on('connect', () => {
     console.log('socket connected')
   })
 
   socket.on('chat message', function (msg) {
     document.body.append(msg)
+    mesh.position.y += 0.1
   })
+
+  document.body.appendChild(component())
+  runThree()
 }
 
-document.body.appendChild(component())
-init()
+function runThree () {
+  camera = new Three.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 )
+  camera.position.z = 1
+
+  scene = new Three.Scene()
+
+  geometry = new Three.BoxGeometry( 0.2, 0.2, 0.2 )
+  material = new Three.MeshNormalMaterial()
+
+  mesh = new Three.Mesh( geometry, material )
+  scene.add( mesh )
+
+  renderer = new Three.WebGLRenderer( { antialias: true } )
+  renderer.setSize( window.innerWidth, window.innerHeight )
+  document.body.appendChild( renderer.domElement )
+}
+
+function animate() {
+
+  requestAnimationFrame( animate )
+
+  mesh.rotation.x += 0.01
+  mesh.rotation.y += 0.02
+
+  renderer.render( scene, camera )
+
+}
+
+run()
+animate()

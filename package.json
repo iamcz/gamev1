@@ -9,8 +9,8 @@
     "build": "webpack --config webpack.config.js",
     "watch": "webpack --watch",
     "dev": "webpack-dev-server --open",
-    "server": "node index.js",
-    "start": "webpack --config webpack.config.js && node index.js"
+    "server": "node app.js",
+    "start": "webpack --config webpack.config.js && node app.js"
   },
   "author": "",
   "license": "ISC",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1"
+    "socket.io-client": "^2.1.1",
+    "three": "^0.92.0"
   }
 }
