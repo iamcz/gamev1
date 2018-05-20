@@ -1,8 +1,4 @@
-import io from 'socket.io-client';
-
-const socket = io.connect(window.location.host, { reconnect: true });
-
-export default function printMe() {
+export default function printMe(socket) {
   console.log('I get called from print.js!')
   socket.emit('chat message', 'this is a message value')
 }
