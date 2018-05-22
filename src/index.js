@@ -1,7 +1,5 @@
 import _ from 'lodash'
 import 'scss/custom.scss'
-import printMe from './print.js'
-import io from 'socket.io-client'
 import * as Three from 'three'
 
 var mesh
@@ -11,9 +9,6 @@ var renderer
 var geometry
 var material
 
-
-const socket = io.connect("localhost:3001", { reconnect: true })
-
 function component() {
   var btn = document.createElement('button')
   var element = document.createElement('div')
@@ -22,22 +17,13 @@ function component() {
   element.innerHTML = _.join(['Hello', 'webpack'], ' ')
 
   btn.innerHTML = 'Click me and check the console?'
-  btn.onclick = e => { printMe(socket) }
+  btn.onclick = e => { console.log('button clicked') }
 
   element.appendChild(btn)
   return element
 }
 
 function run() {
-  socket.on('connect', () => {
-    console.log('socket connected')
-  })
-
-  socket.on('chat message', function (msg) {
-    document.body.append(msg)
-    mesh.position.y += 0.1
-  })
-
   document.body.appendChild(component())
   runThree()
 }
