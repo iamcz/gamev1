@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import 'scss/custom.scss'
+import { Client } from 'colyseus.js'
 import * as Three from 'three'
 
 var mesh
@@ -9,7 +10,7 @@ var renderer
 var geometry
 var material
 
-function component() {
+function component(room) {
   var btn = document.createElement('button')
   var element = document.createElement('div')
 
@@ -17,14 +18,18 @@ function component() {
   element.innerHTML = _.join(['Hello', 'webpack'], ' ')
 
   btn.innerHTML = 'Click me and check the console?'
-  btn.onclick = e => { console.log('button clicked') }
+  btn.onclick = e => room.send({ message: 'sending message' })
 
   element.appendChild(btn)
   return element
 }
 
 function run() {
-  document.body.appendChild(component())
+  const client = new Client('ws://localhost:3000')
+  const room = client.join('game')
+  room.onJoin.add(() => console.log('joined'))
+  room.onMessage.add(() => console.log('message received'))
+  document.body.appendChild(component(room))
   runThree()
 }
 
